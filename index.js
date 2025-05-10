@@ -9,6 +9,16 @@ const PORT = process.env.PORT || 8080;
 const cors = require('cors');
 app.use(cors({ origin: 'https://seoscientist.vercel.app', credentials: true }));
 
+app.use(session({
+  name: 'session',
+  keys: ['secret'],
+  maxAge: 24 * 60 * 60 * 1000,
+  cookie: {
+    secure: true,
+    sameSite: 'none' // important for cross-domain cookies
+  }
+}));
+
 
 // OAuth2 setup
 const oauth2Client = new google.auth.OAuth2(
@@ -18,12 +28,6 @@ const oauth2Client = new google.auth.OAuth2(
 );
 
 const SCOPES = ['https://www.googleapis.com/auth/webmasters.readonly'];
-
-app.use(session({
-  name: 'session',
-  keys: ['secret'],
-  maxAge: 24 * 60 * 60 * 1000
-}));
 
 // Step 1: Redirect user to Google login
 app.get('/auth', (req, res) => {
