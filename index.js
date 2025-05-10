@@ -15,7 +15,7 @@ app.use(session({
   maxAge: 24 * 60 * 60 * 1000,
   cookie: {
     secure: true,
-    sameSite: 'none' // important for cross-domain cookies
+    sameSite: 'None' // important for cross-domain cookies
   }
 }));
 
