@@ -7,7 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 const cors = require('cors');
-app.use(cors({ origin: 'https://seoscientist.vercel.app/', credentials: true }));
+app.use(cors({ origin: 'https://seoscientist.vercel.app', credentials: true }));
 
 
 // OAuth2 setup
