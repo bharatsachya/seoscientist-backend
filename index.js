@@ -19,7 +19,6 @@ app.use(session({
   }
 }));
 
-
 // OAuth2 setup
 const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
@@ -43,12 +42,28 @@ app.get('/oauth2callback', async (req, res) => {
   const code = req.query.code;
   const { tokens } = await oauth2Client.getToken(code);
   req.session.tokens = tokens;
-  // Optionally redirect to a frontend page
-  res.redirect('https://seoscientist.vercel.app?auth=success');
+
+  // ✅ Redirect to a same-origin page to allow cookie to be set
+  res.redirect('/post-auth-redirect');
+});
+
+// ✅ Step 2.5: Local page sets cookie first, then redirects to frontend
+app.get('/post-auth-redirect', (req, res) => {
+  res.send(`
+    <html>
+      <body>
+        <script>
+          // Now that session is set on the same domain, safely redirect to frontend
+          window.location.href = 'https://seoscientist.vercel.app?auth=success';
+        </script>
+      </body>
+    </html>
+  `);
 });
 
 // Step 3: Query Search Console API
 app.get('/search-analytics', async (req, res) => {
+  console.log('SESSION:', req.session); // 👈 For debugging
   if (!req.session.tokens) return res.status(401).send('Not authenticated');
 
   oauth2Client.setCredentials(req.session.tokens);
