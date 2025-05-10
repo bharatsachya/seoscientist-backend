@@ -41,7 +41,7 @@ app.get('/oauth2callback', async (req, res) => {
   req.session.tokens = tokens;
   res.send('Authentication successful! You can now call /search-analytics');
   // Optionally redirect to a frontend page
-  res.redirect('https://seoscientist.vercel.app/');
+  res.redirect('https://seoscientist.vercel.app');
   
 });
 
