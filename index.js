@@ -40,8 +40,7 @@ app.get('/oauth2callback', async (req, res) => {
   const { tokens } = await oauth2Client.getToken(code);
   req.session.tokens = tokens;
   // Optionally redirect to a frontend page
-  res.redirect('https://seoscientist.vercel.app');
-  
+  res.redirect('https://seoscientist.vercel.app?auth=success');
 });
 
 // Step 3: Query Search Console API
