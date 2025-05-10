@@ -15,7 +15,9 @@ app.use(session({
   maxAge: 24 * 60 * 60 * 1000,
   cookie: {
     secure: true,
-    sameSite: 'None' // important for cross-domain cookies
+    sameSite: 'None',
+    domain: 'seoscientist-backend.onrender.com',
+    path: '/'// important for cross-domain cookies
   }
 }));
 
